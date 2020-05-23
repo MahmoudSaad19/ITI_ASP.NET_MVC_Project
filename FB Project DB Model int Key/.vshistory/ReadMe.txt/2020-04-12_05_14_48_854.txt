@@ -1,0 +1,17 @@
+﻿project steps so far :
+______________________________
+1.create database model classes
+2.add db model classes to the app db context
+3.modify appsettings ( modify db and server connection string )
+4.add custom identity user in startup
+5.add migration and update database 
+6.add custom views and identity views
+7.attach custom views with empty actions in controllers
+8.modifiy scaffolded identity views to match BL  
+
+_____________________________________________________
+
+BackUp:
+V1 from step 1 to 5
+v2 from step 6 to 8
+v3 from step 9 to

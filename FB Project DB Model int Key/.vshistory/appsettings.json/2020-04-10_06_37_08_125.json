@@ -1,0 +1,13 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=aspnet-FB_Project_DB_Model_int_Key-FBD6F302-8939-4983-8C64-0C80DE8F96EE;Trusted_Connection=True;MultipleActiveResultSets=true"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*"
+}

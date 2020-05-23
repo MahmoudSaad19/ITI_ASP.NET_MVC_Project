@@ -1,0 +1,44 @@
+﻿@model IEnumerable<FB_Project_DB_Model_int_Key.Models.User>
+@{
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    ViewData["Title"] = "Search";
+}
+
+<style>
+
+    img {
+        width: 40px;
+        height: auto;
+    }
+</style>
+
+<div class="col-12" style="padding-left: 85px;">
+    <table class="table-borderless col-6 ml-3">
+        <thead>
+            <tr>
+                <td colspan="2">
+                    @Html.DisplayNameFor(model => model.UserName)
+                </td>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a><img class="Myimage img-fluid" src="~/Images/3.jpeg" /></a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        <input type="button" value="Add Friend" class=" btn btn-primary rounded" style="width:105px;height:35px;color:white;" />
+                        <input type="button" value="UnFriend" class=" btn btn-danger rounded" style="width:95px;height:35px;color:white;" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

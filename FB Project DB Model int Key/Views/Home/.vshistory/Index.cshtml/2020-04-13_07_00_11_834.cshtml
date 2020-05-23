@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (!SignInManager.IsSignedIn(User))
+{
+    <div class="text-center ">
+        <h1 class="display-4">Welcome</h1>
+        <div class="d-flex">
+            <span class="col-2"></span>
+            <span class="col-8">
+                <br />
+                <br />
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-lg btn-block btn-primary">Login</a>
+                <br />
+                <br />
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-lg btn-block btn-success">Register</a>
+            </span>
+        </div>
+    </div>
+}
+else
+{
+    <hr />
+    <br />
+    <h3 class="text-warning text-center">For testing purposes </h3>
+    <br />
+    <div class="btn-group btn-group-lg col-12">
+        <a class="btn btn-success" asp-action="SearchUsers" asp-controller="Admin">Admin</a>
+        <a class="btn btn-primary" asp-action="Home" asp-controller="Member">User</a>
+    </div>
+}
+@{#warning remove code above ^^ in production}
+
+

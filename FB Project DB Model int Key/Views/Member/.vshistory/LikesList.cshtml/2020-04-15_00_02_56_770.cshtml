@@ -1,0 +1,10 @@
+﻿@model IEnumerable<Post>
+@{ 
+    var pl = Model.FirstOrDefault().PostLikes.ToList();
+}
+@foreach (var item in pl)
+{
+    <img src="~/Images/bubble.jpeg" height="30" width="20" />
+    <a href="">@item.User?.UserName</a>
+    <hr />
+}

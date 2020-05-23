@@ -1,0 +1,98 @@
+﻿@model IEnumerable<Post>
+
+@{
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    ViewData["Title"] = "Home";
+}
+
+<style>
+
+    #userPost {
+        border: solid;
+        border-color: blue;
+        border-width: thin;
+    }
+
+    #posts {
+        border: solid;
+        border-color: blue;
+        border-width: thin;
+    }
+
+    #comments {
+        border: solid;
+        border-color: blue;
+        border-width: thin;
+    }
+
+    #friendPost {
+        border: solid;
+        border-color: blue;
+        border-width: thin;
+    }
+</style>
+
+
+<form class="col-xl-10 justify-content-xl-center" method="post" action="/Member/Post">
+    <input type="text" name="text" placeholder="Post something cool!" class="col-xl-12 justify-content-center" rows="3" cols="80"/>
+    <input type="submit" value="Post" class="btn btn-primary" />
+</form>
+<div  id="userPost">
+    <textarea id="myTextArea"  rows="3" cols="80"></textarea>
+    <input type="button"  value="Post" />
+</div>
+<br />
+<br />
+<br />
+
+<div class="col-xl-10 justify-content-xl-center position-relative" id="posts" center>
+    <br />
+    <div class="col-xl-7 justify-content-center" id="friendPost">
+        <img src="~/Images/bubble.jpeg" height="30" width="20" />
+        <a href="">User Name</a>
+        <div class="col-xl-9" id="postText">
+            <textarea id="myTextArea" class="col-xl-12 justify-content-center" rows="3" cols="80">User post</textarea>
+            <input type="button" class="btn btn-primary" value="Like" />
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Likes
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">People who liked</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="~/Images/bubble.jpeg" height="30" width="20" />
+                            <a href="">User Name</a>
+                            <br />
+                            <img src="~/Images/bubble.jpeg" height="30" width="20" />
+                            <a href="">User Name</a>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br />
+    <br />
+    <div class="col-xl-10 justify-content-center" id="comments">
+        <img src="~/Images/bubble.jpeg" height="30" width="20" />
+        <a href="">User Name</a>
+        <textarea id="myTextArea" class="col-xl-5 justify-content-center" rows="1" cols="50">Comment</textarea>
+
+
+    </div>
+
+
+</div>

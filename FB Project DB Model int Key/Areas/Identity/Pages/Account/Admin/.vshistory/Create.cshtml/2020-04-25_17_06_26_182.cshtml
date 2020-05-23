@@ -1,0 +1,68 @@
+﻿@page
+@model FB_Project_DB_Model_int_Key.Areas.Identity.Pages.Account.AdminCreateUserModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout1.cshtml";
+    ViewData["Title"] = "AdminCreateUser";
+}
+<style>
+    .error{
+        list-style:none;
+        background-color:palegoldenrod;
+    }
+    .shade{
+        box-shadow: 1px 1px 1px 1px gray; 
+    }
+    
+</style>
+
+<div class="container">
+    <form class="row col-12" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div class="d-flex col-12">
+            <div class="col-6 text-center">
+                <div class="form-group">
+                    <input asp-for="Input.UserName" class="form-control shade" placeholder="User Name" />
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.Email" class="form-control shade" placeholder="Email" />
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.Password" class="form-control shade" placeholder="Password" />
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.ConfirmPassword" class="form-control shade" placeholder="ConfirmPassword" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Gender"></label>
+                    <br />
+                    <label><input asp-for="Input.Gender" value="M" type="radio" />Male</label>
+                    <label><input asp-for="Input.Gender" value="F" type="radio" />Female</label>
+                </div>
+            </div>
+            <div class="col-6 text-center">
+                
+
+                <div class="form-group">
+                    <label asp-for="Input.BirthDate"></label>
+                    <input asp-for="Input.BirthDate" class="form-control shade" type="date" />
+                </div>
+
+                <!--select role-->
+
+                <div class="form-group">
+                    <label asp-for="Input.RoleName" class="control-label"></label>
+                    <select asp-for="Input.RoleName" class="form-control shade" asp-items="(SelectList)@ViewData["Roles"]"></select>
+                </div>
+                <br />
+                <hr />
+                <div asp-validation-summary="All" class="text-danger error"></div>
+
+                <button type="submit" class="btn btn-block btn-primary">Create</button>
+            </div>
+        </div>           
+    </form>
+</div>
+   
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,174 @@
+﻿@model IEnumerable<FB_Project_DB_Model_int_Key.Models.User>
+@{
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    ViewData["Title"] = "Profile";
+}
+
+<div class="d-flex col-12">
+    <div class="col-5 text-center" style="border-right-color:lightgray; border-right-style:solid; border-right-width:1px;">
+        <div class="btn btn-light col-10">
+            <img src="~/Images/anonymus_user.jpg" class="img-fluid" />
+            <input type="file" accept="image/*" value="../Videos" />
+        </div>
+        
+        @*<div class="input-group mb-3">
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile02">
+                <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
+            </div>
+            <div class="input-group-append">
+                <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
+            </div>
+        </div>*@
+
+        <hr />
+        <label>Username : </label>
+
+        <label>Gender</label>
+        <br />
+        <label>Birth Date</label>
+        <br />
+        <label>Bio</label>
+
+        <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#EditModal">Edit</button>
+        <hr />
+        <div>
+            <div class="col-12" style="padding-left: 85px;">
+                <table class="table-borderless col-6 ml-3">
+                    <thead>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td colspan="2"></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                        <td>
+                            <a><img class="Myimage img-fluid" src="~/Images/bubble.jpeg" /></a>
+                        </td>
+                        <td>
+                            <a href="#" class="MyLab ml-1">@item.UserName</a>
+                            <input type="hidden" value="@Model.Select(d=>d.UserName).ToArray()" id="xxx" />
+                        </td>
+                        <td>
+                            <input type="button" value="Add Friend" class=" btn btn-primary rounded" style="width:105px;height:35px;color:white;" onclick="openl()" />
+                            <input type="button" value="UnFriend" class=" btn btn-danger rounded" style="width:95px;height:35px;color:white;" />
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div class="col-12" style="padding-left: 85px;">
+                <table class="table-borderless col-6 ml-3">
+                    <thead>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td colspan="2"></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </thead>
+                    @*<tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                        <td>
+                            <a><img class="Myimage img-fluid" src="~/Images/3.jpeg" /></a>
+                        </td>
+                        <td>
+                            <a href="#" class="MyLab ml-1">Fayrouz Ahmed</a>
+                        </td>
+                        <td>
+                            <input type="button" value="Add Friend" class=" btn btn-primary rounded" style="width:105px;height:35px;color:white;" />
+                            <input type="button" value="UnFriend" class=" btn btn-danger rounded" style="width:95px;height:35px;color:white;" />
+                        </td>
+                    </tr>
+                    }
+                </tbody>*@
+                </table>
+            </div>
+            </div>
+    </div>
+
+            <hr />
+    <div class="col-7">
+                <input type="text" name="newPost" class="form-control" style="height:20%;" />
+                <input type="button" value="Post" class="form-control btn btn-outline-secondary" />
+                <br />
+                @foreach (var item in new List<string>() { "ali", "sad", "had", "dad" })
+                {
+                    <hr />
+                    <div class="form-control">
+                        @item
+                    </div>
+
+                }
+
+            </div>
+</div>
+        
+
+
+<!--Edit info Modal  -->
+
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditModalLabel">Edit Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="info" class="modal-body">
+                <form method="post">
+                    <label for="username" class="col-form-label">User Name :</label>
+                    <input type="text" class="form-control" id="username" required>
+                    <label for="gender" class="col-form-label">Gender :</label>
+                    <input type="radio" value="Male" name="gender" />
+                    <input type="radio" value="female" name="gender" />
+                    <label for="date" class="col-form-label">Birth Date :</label>
+                    <input type="date" name="date"/>
+                    <label for="bio" class="col-form-label">BIO :</label>
+                    <input type="text" class="form-control" />
+                    <input type="submit" value="Save" />
+                </form>
+            </div>
+            <!-- we don't need footer -->
+
+            @*<div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Send message</button>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script>
+        function openl() {
+           // var arr = @Model.ToArray();
+            var ob = document.createElement('td');
+            ob.append('test');
+            document.getElementsByTagName('tr')[1].append(ob);
+            for (i = 0; i <@Model.ToList().Count ; i++) {
+                @{ 
+                    int x = 0;
+                    var v = Model.Take(x++).Select(s=>s.UserName);
+                    string[] arr = { "ali", "sally", "fady" };
+                    string data = arr[x++];
+                }
+                ob.append(@data.Length);
+            }
+            
+            
+        }
+    </script>
+}

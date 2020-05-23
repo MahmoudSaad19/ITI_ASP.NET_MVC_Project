@@ -1,0 +1,25 @@
+﻿project steps so far :
+______________________________
+1.create database model classes
+2.add db model classes to the app db context
+3.modify appsettings ( modify db and server connection string )
+4.add custom identity user in startup
+5.add migration and update database 
+6.add custom views and identity views
+7.attach custom views with empty actions in controllers
+8.modifiy scaffolded identity views to match BL  
+9.add authentication type ( member/admin/anonymus ) on all pages 
+10.Adjust and add functionality for create role page 
+11.Adjust and add functionality for Admin create User page 
+12.Adjust and add functionality for settings page 
+13.modify model class user ( add Blocked column) , class Postlikes make PK composite
+14.add search, posts , Edit Profile functions
+15.
+
+_____________________________________________________
+
+BackUp:
+V1 [FB Project DB Model int Key] from step 1 to 5
+v2 [FB Project Views] from step 6 to 8
+v3 [FB Project Authentication] step 9 
+v4 [] from step 10 to 14

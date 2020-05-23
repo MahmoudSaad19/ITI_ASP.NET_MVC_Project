@@ -1,0 +1,42 @@
+﻿@model IEnumerable<User>
+@{
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    ViewData["Title"] = "Search";
+}
+
+<style>
+
+    img {
+        width: 40px;
+        height: auto;
+    }
+</style>
+
+<div class="col-12" style="padding-left: 85px;">
+    <table class="table-borderless col-6 ml-3">
+       
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="col-4 align-self-center">
+                            @if (item?.Photo == null)
+                            {
+                                <img src="~/Images/bubble.jpeg" class="img-fluid rounded-circle" />
+                            }
+                            else
+                            {
+                                <img src="data:image/*;base64,@Convert.ToBase64String(item?.Photo)" class="img-fluid rounded-circle" />
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <a href="/Member/Profile/@item.Id" class="h4 col-12 d-block m-0 p-0 text-primary">@item.UserName</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

@@ -1,0 +1,263 @@
+﻿@model User
+@inject UserManager<User> userManager
+@{
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    ViewData["Title"] = "Profile";
+    var currentUser = await userManager.GetUserAsync(User);
+}
+
+<div class="d-flex col-12">
+    <div class="col-5 text-center" style="border-right-color:lightgray; border-right-style:solid; border-right-width:1px;">
+        <div class="col-12 d-flex">
+            <div style="max-width:10%; flex:10%"></div>
+            <div class="col-10">
+                @if (Model.Photo == null)
+                {
+                    <img src="~/Images/bubble.jpeg" class="img-fluid" />
+                }
+                else
+                {
+                    <img src="data:image/*;base64,@Convert.ToBase64String(Model?.Photo)" class="img-fluid col-10" />
+                }
+                @if (Model.Id == currentUser.Id)
+                {
+                    <form asp-action="UploadPic" enctype="multipart/form-data">
+                        <input type="file" name="pic" accept="Image/*" />
+                        <input type="submit" value="Upload" class="btn btn-primary" />
+                    </form>
+                }
+
+            </div>
+        </div>
+        @{
+            #region Bootstrap style for file input button
+            @*
+                <div class="input-group mb-3">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="inputGroupFile02">
+                    <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choose file</label>
+                </div>
+                <div class="input-group-append">
+                    <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
+                </div>
+            </div>*@
+            #endregion
+        }
+
+
+        <hr />
+        <label>Username : @Model.UserName</label>
+        <br />
+        <label>Gender : @Model.Gender</label>
+        <br />
+        <label>Birth Date : @Model.BirthDate</label>
+        <br />
+        <label>Bio : @Model.BIO</label>
+        <br />
+        @if (Model.Id == currentUser.Id)
+        {
+            <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#EditModal">Edit</button>
+        }
+
+        <hr />
+        <!-- Friend Request-->
+        @if (Model.Id == currentUser.Id)
+        {
+            <div class="shadow-sm" style="border:solid 1px lightgray;">
+                <h5 class="border border-secondary text-dark text-center shadow">Friend Requests</h5>
+                <div>
+                    @foreach (var item in Model.FriendRequests)
+                    {
+                        <div class="col-12 d-flex">
+                            <span class="col-3">
+                                @if (item.reqFriend?.Photo == null)
+                                {
+                                    <img src="~/Images/bubble.jpeg" class="img-fluid" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/*;base64,@Convert.ToBase64String(item.reqFriend?.Photo)" class="img-fluid" />
+                                }
+                            </span>
+                            <span class="col-3 align-self-sm-center">
+                                <a href="/Member/Profile/@item.ReqId" class="">@item.reqFriend?.UserName</a>
+                            </span>
+                            <span class="col-2 align-self-sm-center">
+                                <input type="button" value="Accept" class=" btn btn-sm btn-primary rounded" />
+                            </span>
+                            <span class="col-2 align-self-sm-center">
+                                <input type="button" value="Reject" class=" btn btn-sm btn-danger rounded" />
+                            </span>
+                        </div>
+                        <hr />
+                    }
+                </div>
+            </div>
+        }
+        <br />
+        <!-- Friend List-->
+    <div class="shadow-sm" style="border:solid 1px lightgray;">
+        <h5 class="border border-secondary text-dark text-center shadow">Friends</h5>
+        <table class="table table-hover">                
+                <tbody>
+                    @foreach (var item in Model.Friends)
+                    {
+                        <tr class="d-flex">
+                            <td class="col-4">
+                                @if (item.Friend?.Photo == null)
+                                {
+                                    <img src="~/Images/bubble.jpeg" class="img-fluid col-12" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/*;base64,@Convert.ToBase64String(item.Friend?.Photo)" class="img-fluid col-12" />
+                                }
+                            </td>
+                            <td class="d-flex col-4 align-content-sm-center">
+                                <a href="/Member/Profile/@item.FriendId" class="align-self-sm-center">@item.Friend?.UserName</a>
+                            </td>
+                            <td class="d-flex col-4 align-content-sm-center">
+                                <form method="post" action="/Member/Unfriend/@item.FriendId" class="align-self-sm-center">
+                                    <input type="submit" value="UnFriend" class=" btn btn-outline-danger" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+    </div>
+
+    <hr />
+    <!-- User Posts-->
+    <div class="col-7">
+        @if (Model.Id == currentUser.Id)
+        {
+            <form class="Post" method="post" action="/Member/Post">
+                <input type="text" name="textPost" placeholder="Post something cool!" class="form-control" />
+                <input type="submit" value="Post" class="form-control" />
+            </form>
+        }
+        else
+        {
+            <button class="btn btn-outline-danger">Friend Relation</button>
+        }
+
+        <br />
+        @foreach (var item in Model.Posts)
+        {
+            <hr />
+            <!--Post-->
+    <div class="shadow-sm border border-secondary">
+        <div class="col-12 d-flex">
+            <!--user and post info-->
+            <div class="col-2 align-self-center">
+                @if (item.User?.Photo == null)
+                {
+                    <img src="~/Images/bubble.jpeg" class="img-fluid" />
+                }
+                else
+                {
+                    <img src="data:image/*;base64,@Convert.ToBase64String(item.User?.Photo)" class="img-fluid" />
+                }
+            </div>
+            <div class="col-5 text-left align-content-lg-start">
+                <a href="/Member/Profile/@item.User.Id" class="h5 col-12 text-lg-left text-primary">@item.User.UserName</a>
+                <p class="text-secondary">@item.Date</p>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-1">
+                @if (User.Identity.Name == item.User.UserName)
+                {
+                    <a href="/Member/DeletePost/@item.PostID">&times;</a>
+                }
+            </div>
+        </div>
+
+        <div class="border">
+            @item.BodyText
+        </div>
+    </div>
+            
+           
+            
+        }
+
+    </div>
+
+</div>
+
+<!-- Post Likes List Modal -->
+<div class="modal fade" id="LikesModal" tabindex="-1" role="dialog" aria-labelledby="LikesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LikesModalLabel">People who liked</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*@foreach (var item in Model.Posts?.FirstOrDefault()?.PostLikes)
+                {
+                    <img src="~/Images/bubble.jpeg" height="30" width="20" />
+                    <a href="">User Name</a>
+                    <br />
+                }*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Edit info Modal  -->
+
+<div class="modal fade" id="EditModal" tabindex="-1" role="dialog" aria-labelledby="EditModalLabel" data-toggle="ajax-modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="EditModalLabel">Edit Info</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="info" class="modal-body">
+                <form action="@Url.Action("EditProfile", "Member")" method="post">
+                    <div class="form-group">
+                        <input asp-for="@Model.Id" type="text" hidden class="form-control" id="Id" value="@Model.Id">
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.UserName" class="col-form-label">User Name :</label>
+                        <input type="text" class="form-control" id="username" required asp-for="@Model.UserName">
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => Model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                        @Html.RadioButtonFor(model => Model.Gender, "M")
+                        <span>Male</span>
+
+                        @Html.RadioButtonFor(model => Model.Gender, "F")
+                        <span>Female</span>
+
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.BirthDate" class="col-form-label">Birth Date :</label>
+                        @Html.TextBoxFor(model => Model.BirthDate, new { @type = "date", @class = "form-control datepicker", @Value = Model.BirthDate.ToString("yyyy-MM-dd") })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.BIO" class="col-form-label">BIO :</label>
+                        <input type="text" class="form-control" id="bio" required asp-for="@Model.BIO">
+                    </div>
+                    <div class="form-group">
+                        <center>
+                            <input type="submit" value="Save" class="form-control col-4" />
+                        </center>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

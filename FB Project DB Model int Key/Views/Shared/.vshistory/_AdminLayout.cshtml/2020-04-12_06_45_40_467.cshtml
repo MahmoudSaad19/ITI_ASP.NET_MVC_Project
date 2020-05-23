@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Admin Layout</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 ">
+            <div class="container">
+                <a asp-controller="Admin" asp-action="SearchUsers">
+                    <img src="~/images/opacity.jpg" width="50" height="40" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-0">
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary my-2 my-sm-0" asp-controller="Admin" asp-action="SearchUsers">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary my-2 my-sm-0" asp-area="" asp-controller="Admin" asp-action="CreateRole">Roles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-primary my-2 my-sm-0" asp-area="Identity" asp-page="/Account/User/Setting">Settings</a>
+
+                        </li>
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

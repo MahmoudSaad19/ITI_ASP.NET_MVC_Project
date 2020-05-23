@@ -1,0 +1,22 @@
+﻿@model IEnumerable<Post>
+@{
+    var post = Model.FirstOrDefault();
+    var userswholiked = post.PostLikes.Where(p => p.PostId == post.PostID);
+}
+
+@foreach (var item in userswholiked)
+{
+    <span class="col-2 d-flex p-0">
+        <span class="col-1 p-0"></span>
+        @if (item.User?.Photo == null)
+        {
+            <img src="~/Images/bubble.jpeg" class="img-fluid rounded-circle col-10" />
+        }
+        else
+        {
+            <img src="data:image/*;base64,@Convert.ToBase64String(item.User?.Photo)" class="img-fluid rounded-circle col-10" />
+        }
+    </span>
+    <a href="/Member/Profile/@item?.UserId">@item.User?.UserName</a>
+    <hr />
+}

@@ -1,0 +1,185 @@
+﻿@model IEnumerable<User>
+@inject UserManager<User> userManager
+@inject RoleManager<Role> rm
+@inject FB_Project_DB_Model_int_Key.Data.ApplicationDbContext dbContext
+
+@{
+    ViewData["Title"] = "AjaxSearch";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var currentUser = await userManager.GetUserAsync(User);
+}
+
+<div>
+    <input type="text" id="txtsearch" placeholder="Enter Name" class="form-control" />
+    <br />
+    <a class="btn btn-block btn-sm btn-outline-light border-primary text-primary" asp-area="Identity" asp-page="/Account/Admin/Create">Create</a>
+
+    <table class="table">
+        <thead>
+            <tr class="d-flex">
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="DataSearching">
+            @foreach (var item in Model)
+            {
+                <tr style="display:flex;">
+                    <td style="width:15%;">
+                        @if (item?.Photo == null)
+                        {
+                            <img src="~/Images/bubble.jpeg" class="img-fluid" />
+                        }
+                        else
+                        {
+                            <img src="data:image/*;base64,@Convert.ToBase64String(item?.Photo)" class="img-fluid" />
+                        }
+                    </td>
+                    <td class="d-flex align-content-center col-3">
+                        <a href="/Member/Profile/@item.Id" class="ml-2 h5 align-self-center d-flex">@item.UserName</a>
+                    </td>
+                    <td class="d-flex col-1">
+                        @if (item.Blocked)
+                        {
+                            <form action="/Admin/UnBlock/@item.Id" class="align-self-center">
+                                <input type="submit" value="UnBlock" class=" btn btn-secondary rounded align-self-center" />
+                            </form>
+                        }
+                        else
+                        {
+                            <form action="/Admin/Block/@item.Id" class="align-self-center">
+                                <input type="submit" value="Block" class=" btn btn-dark rounded align-self-center" />
+                            </form>
+                        }
+                    </td>
+                    <td class="col-6 d-flex">
+                        <form action="/Admin/UpdateRole/@item.Id" class="align-self-center">
+                            @foreach (var r in rm.Roles)
+                            {
+                                <label>@r.Name</label>
+                                if (await userManager.IsInRoleAsync(item, r.Name))
+                                {
+                                    <input type="checkbox" name="selectedRoles" value="@r.Name" checked="checked" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="selectedRoles" value="@r.Name" />
+                                }
+                            }
+                            @if (item.Id == currentUser.Id)
+                            {
+                                <input type="button" data-toggle="modal" data-target="#confirmation" value="Update Roles" class="btn btn-outline-warning" />
+                            }
+                            else
+                            {
+                                <input type="submit" value="Update Roles" class="btn btn-outline-warning" />
+                            }
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- User confirmation Modal -->
+<div class="modal fade" id="confirmation" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="confirmationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-warning" id="confirmationLabel">Warning</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center" id="confirmationBody">
+                <h3 class="warn">Are you sure you want to change your roles ?</h3>
+                <br />
+                <input type="button" value="yes I want to change them" onclick="change()" class="btn btn-outline-warning text-danger warn" />
+                <h4 class="role d-none">Select Roles again </h4>
+                <hr />
+                <form action="/Admin/UpdateRole/@currentUser.Id" class="align-self-center role d-none">
+                    @foreach (var r in rm.Roles)
+                    {
+                        <label>@r.Name</label>
+                        if (await userManager.IsInRoleAsync(currentUser, r.Name))
+                        {
+                            <input type="checkbox" name="selectedRoles" value="@r.Name" checked="checked" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="selectedRoles" value="@r.Name" />
+                        }
+                    }                    
+                    <input type="submit" value="Update Roles" class="btn btn-outline-warning d-none" />
+                </form>
+                <hr />
+                <br />
+                <br />
+                <h6 class="role text-danger">Note: if you removed your self as an admin you can't go back</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/js/jquery/jquery-3.5.0.js"></script>
+    @*<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>*@
+    <script>
+        $("#txtsearch").on("keyup", function () {
+            var txtenter = $(this).val();
+            $("table tr").each(function (results) {
+                if (results !== 0) {
+                    var id = $(this).find("td:nth-child(2)").text();
+                    if (id.indexOf(txtenter) !== 0 && id.toLowerCase().indexOf(txtenter.toLowerCase()) < 0) {
+                        $(this).hide();
+                    }
+                    else {
+                        $(this).show();
+                    }
+                }
+            });
+        });
+
+        function change() {
+            $('.warn').hide();
+            $('role').show();
+        }
+    </script>
+}
+
+@{
+    #region old code
+
+
+    @*<script>$(document).ready(function () {
+            $("#searchButton").click(function () {
+                var SearchBy = $("#searchBy").val();
+                var SearchValue = $("#Search").val();
+                var SetData = $("#DataSearching");
+                SetData.html("");
+                $.ajax({
+                    type: "post",
+                    url: "/Admin/GetSearchingData?SearchBy=" + SearchBy + "&SearchValue=" + SearchValue,
+                    contentType: "html",
+                    success: function (result) {
+                        if (result.length == 0)
+                            SetData.append('<tr style="color:red"><td colspan="3">No Match</td></tr>')
+                        else {
+                            $.each(result, function (index, value) {
+                                var Data = "<tr>" + "<td>" + value.Id + "</td>" +
+                                    "<td>" + value.UserName + "</td>" +
+                                    "<td>" + value.Email + "</td>" +
+                                    "</tr>";
+                                SetData.append(Data);
+                            })
+                        }
+                    }
+                });
+            });
+        });</script>*@
+    #endregion
+}

@@ -1,0 +1,38 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityResult
+@{
+Layout = "~/Views/Shared/_AdminLayout.cshtml";
+ViewData["Title"] = "CreateRole";
+}
+
+<main role="main" class="pb-3">
+    <br />
+    <br />
+    <br />
+    @if (Model == Microsoft.AspNetCore.Identity.IdentityResult.Success)
+    {
+        <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+            <strong>Success</strong><br /> Role Created Successfully
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    else if (Model?.Errors.Count() > 0)
+    {
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+            <strong>Error</strong><br /> Problem Creating New Role
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <form class="text-center" method="post">
+        <input type="text" class="form-control" name="roleName" placeholder="Role Name">
+        <br />
+        <input type="text" class="form-control" name="roleDesc" placeholder="Role Description">
+        <hr />
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</main>
+
