@@ -1,0 +1,6 @@
+﻿project steps so far :
+1.create database model classes
+2.add db model classes to the app db context
+3.modify appsettings ( modify db and server connection string )
+4.add custom identity user in startup
+5.add migration and update database 

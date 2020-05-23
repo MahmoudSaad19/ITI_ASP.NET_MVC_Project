@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-FB_Project_DB_Model_int_Key-FBD6F302-8939-4983-8C64-0C80DE8F96EE</UserSecretsId>
+    <RootNamespace>FB_Project_DB_Model_int_Key</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410044841_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410044841_create_All_Tables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410051140_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410051140_create_All_Tables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410051420_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410051420_create_All_Tables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410055506_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410055506_create_All_Tables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410060746_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410060746_create_All_Tables.Designer.cs" />
+    <Compile Remove="Migrations\20200410063041_create_All_Tables.cs" />
+    <Compile Remove="Migrations\20200410063041_create_All_Tables.Designer.cs" />
+    <Compile Remove="Migrations\20200410063407_create_All_Tables.cs" />
+    <Compile Remove="Migrations\20200410063407_create_All_Tables.Designer.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,176 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "SearchUsers";
+}
+
+<style>
+    img {
+        width: 40px;
+        height: auto;
+    }
+</style>
+<div class="col-12" style="padding-left:200px;">
+    <input type="text" id="search" class="form-control-plaintext border rounded d-inline" style="width:500px" placeholder="Search User Details" />
+    <input type="button" value="Search" class="rounded ml-3" style="background-color:darkgray;width:80px;height:40px;color:white;" />
+    <a class="rounded-circle btn" style="background-color:aqua;width:100px;height:50px;" asp-action="create">Create</a>
+    <br />
+    <table class="table-borderless col-7 ml-3">
+        <thead>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2"></td>
+                <td colspan="2"></td>
+                <td colspan="2"></td>
+            </tr>
+        </thead>
+        @*<tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a><img class="Myimage img-fluid" src="~/Images/3.jpeg" /></a>
+                        </td>
+                        <td>
+                            <a href="#" class="MyLab ml-1">Fayrouz Ahmed</a>
+                        </td>
+                        <td>
+                            <input type="button" value="Block" class=" btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                        </td>
+                        <td>
+                            <select class="custom-select" style="width:120px;">
+                                <option class="list-inline-item">Admin</option>
+                                <option class="list-inline-item">Member</option>
+                            </select>
+                        </td>
+                    </tr>
+                }
+            </tbody>*@
+        <tbody>
+            <tr>
+                <td>
+                    <a><img class="Myimage img-fluid" src="~/Images/batoot.png" /></a>
+                </td>
+                <td>
+                    <a href="#" class="MyLab ml-1">Fayrouz Ahmed</a>
+                </td>
+                <td>
+                    <input type="button" value="Block" class=" btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                </td>
+                <td>
+                    <select class="custom-select" style="width:120px;">
+                        <option class="list-inline-item">Admin</option>
+                        <option class="list-inline-item">Member</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a><img class="Myimage img-fluid" src="~/Images/batoot.png" /></a>
+                </td>
+                <td>
+                    <a href="#" class="MyLab ml-1">Khaled Mohamed</a>
+                </td>
+                <td>
+                    <input type="button" value="Block" class=" btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                </td>
+                <td>
+                    <select class="custom-select" style="width:120px;">
+                        <option class="list-inline-item">Admin</option>
+                        <option class="list-inline-item">Member</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a><img class="Myimage img-fluid" src="~/Images/batoot.png" /></a>
+                </td>
+                <td>
+                    <a href="#" class="MyLab ml-1">Engy Samy</a>
+                </td>
+                <td>
+                    <input type="button" value="Block" class=" btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                </td>
+                <td>
+                    <select class="custom-select" style="width:120px;">
+                        <option class="list-inline-item">Admin</option>
+                        <option class="list-inline-item">Member</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="#"><img class="Myimage img-fluid" src="~/Images/batoot.png" /></a>
+                </td>
+                <td>
+                    <a href="#" class="MyLab ml-0">Menna Fady</a>
+                </td>
+                <td>
+                    <input type="button" value="Block" class=" btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                </td>
+                <td>
+                    <select class="custom-select" style="width:120px;">
+                        <option class="list-inline-item">Admin</option>
+                        <option class="list-inline-item">Member</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    @*<ul class="list-group col-7" style="background-color:lightgray">
+            <li class="list-group-item col-12">
+                <div class="col-6 d-inline">
+                    <img class="Myimage" src="~/Images/3.jpeg" />
+                    <label class="MyLab ml-1">Fayrouz Ahmed</label>
+                </div>
+                <div class="col-1 d-inline pr-3">
+                    <input type="button" value="Block" class=" btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                    <select class="custom-select" style="width:100px;">
+                        <option class="list-inline-item">Admin</option>
+                        <option class="list-inline-item">Member</option>
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item col-12">
+                <div class="col-6 d-inline">
+                    <img class="Myimage" src="~/Images/5.jpeg" />
+                    <label class="MyLab ml-1">Khaled Mohamed</label>
+                </div>
+                <div class="col-6 d-inline pr-3">
+                    <input type="button" value="Block" class="btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                    <select class="custom-select" style="width:100px;">
+                        <option class="list-inline-item">Admin</option>
+                        <option class="list-inline-item">Member</option>
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item col-12">
+                <div class="col-6 d-inline">
+                    <img class="Myimage" src="~/Images/6.jpeg" />
+                    <label class="MyLab ml-1">Engy Samy</label>
+                </div>
+                <div class="col-6 d-inline pr-3">
+                    <input type="button" value="Block" class="btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                    <select class="custom-select" style="width:100px;">
+                        <option class="list-inline-item">Admin</option>
+                        <option class="list-inline-item">Member</option>
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item col-12">
+                <div class="col-6 d-inline">
+                    <img class="Myimage" src="~/Images/peace.jpg" />
+                    <label class="MyLab ml-1">Menna Fady</label>
+                </div>
+                <div class="col-6 d-inline pr-3">
+                    <input type="button" value="Block" class="btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                    <select class="custom-select" style="width:100px;">
+                        <option class="list-inline-item">Admin</option>
+                        <option class="list-inline-item">Member</option>
+                    </select>
+                </div>
+            </li>
+        </ul>*@
+</div>
+
+

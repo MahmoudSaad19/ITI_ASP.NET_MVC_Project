@@ -1,0 +1,30 @@
+﻿
+@{
+    var url = ViewContext.RouteData.Values.Values;
+    if (url.Any(c => c.ToString().Contains("Admin")))
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    else if (url.Any(c => c.ToString().Contains( "Member")))
+        Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    else
+        Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error 404 Not Found</title>
+    <style>
+        body {
+            background: url(/Images/404NotFoundB&W.png);
+            background-repeat: no-repeat;
+            background-position-x: center;
+            background-position-y: 8%;
+            background-color: ghostwhite;
+        }
+    </style>
+</head>
+<body>
+</body>
+</html>

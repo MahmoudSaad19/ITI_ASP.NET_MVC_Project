@@ -1,0 +1,69 @@
+﻿@page
+@model FB_Project_DB_Model_int_Key.Areas.Identity.Pages.Account.AdminCreateUserModel
+@{
+Layout = "~/Views/Shared/_AdminLayout.cshtml";
+ViewData["Title"] = "AdminCreateUser";
+}
+
+<div class="row">
+    <form class="row col-12" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div asp-validation-summary="All" class="text-danger col-1"></div>
+        <div class="d-flex col-11">
+            <div class="col-5">
+                <div class="form-group">
+                    <label asp-for="Input.UserName"></label>
+                    <input asp-for="Input.UserName" class="form-control" />
+                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-1">
+
+            </div>
+            <div class="col-6 text-center">
+                <div class="form-group">
+                    <label asp-for="Input.Gender"></label>
+                    <br />
+                    <label><input asp-for="Input.Gender" value="M" type="radio" />Male</label>
+                    <label><input asp-for="Input.Gender" value="F" type="radio" />Female</label>
+                    <span asp-validation-for="Input.Gender" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.BirthDate"></label>
+                    <input asp-for="Input.BirthDate" class="form-control" type="date" />
+                    <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
+                </div>
+
+                <!--Edit-->
+
+                <div class="form-group">
+                    <label asp-for="Input.RoleName" class="control-label"></label>
+                    <select asp-for="Input.RoleName" class="form-control" asp-items="(SelectList)@ViewData["Roles"]"></select>
+                </div>
+
+                <button type="submit" class="btn btn-lg btn-primary">Create</button>
+            </div>
+        </div>
+           
+    </form>
+</div>
+   
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,43 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+<div>
+    <br />
+    <br />
+    
+</div>
+<div class="container d-flex">
+    <div class="col-1 col-md-3"></div>
+    <div class="col-md-6 text-center">
+        <form id="account" method="post">
+            <h4 class="text-info">Use a local account to log in</h4>
+            <br />
+            <br />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="Input.UserName" class="form-control shadow" placeholder=" Enter Username or Email" />
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Input.Password" class="form-control shadow" placeholder="Password" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block rounded-pill" style="background-color:cornflowerblue;">Log in</button>
+            </div>
+            <div class="form-group">
+                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="btn btn-sm btn-outline-success text-primary h3 rounded">Register as a new user</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

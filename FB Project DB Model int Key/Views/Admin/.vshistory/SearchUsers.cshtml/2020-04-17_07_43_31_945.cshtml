@@ -1,0 +1,64 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "SearchUsers";
+}
+
+<style>
+    img {
+        width: 40px;
+        height: auto;
+    }
+    .Myimage{
+        width: 50px;
+        height: 50px;
+    }
+    .MyLab{
+        font-size:15px;
+        color:fuchsia;
+        font-family:cursive;
+    }
+</style>
+<div class="col-12" style="padding-left:200px;">
+    <input type="text" id="search" class="form-control-plaintext border rounded d-inline" style="width:500px" placeholder="Search User Details" />
+    <input type="button" value="Search" class="rounded ml-3" style="background-color:darkgray;width:80px;height:40px;color:white;" />
+    <a class="rounded-circle btn" style="background-color:aqua;width:100px;height:50px;" asp-area="Identity" asp-page="/Account/Admin/Create">Create</a>
+    <a class="rounded-circle btn btn-outline-primary" asp-action="AjaxSearch" asp-controller="Admin">Create</a>
+    <br />
+    <table class="table-borderless col-7 ml-3">
+        <thead>
+            <tr>
+                <td colspan="2"></td>
+                <td colspan="2"></td>
+                <td colspan="2"></td>
+                <td colspan="2"></td>
+            </tr>
+        </thead>
+        <tbody>
+            @*@foreach (var item in Model)
+                {*@
+            <tr>
+                <td>
+                    <a><img class="Myimage img-fluid" src="~/Images/3.jpeg" /></a>
+                </td>
+                <td>
+                    <a href="#" class="MyLab ml-1">Fayrouz Ahmed</a>
+                </td>
+                <td>
+                    <input type="button" value="Block" class=" btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                </td>
+                <td>
+                    <select class="custom-select" style="width:120px;">
+                        <option class="list-inline-item">Admin</option>
+                        <option class="list-inline-item">Member</option>
+                    </select>
+                </td>
+            </tr>
+            @*}*@
+        </tbody>
+
+    </table>
+
+</div>
+
+

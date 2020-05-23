@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Post>
+
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+}
+
+
+<style>
+    .Post {
+        border: solid;
+        border-color: blue;
+        border-width: thin;
+    }
+</style>
+
+<div class="col-xl-10 justify-content-xl-center post">
+    <form class="Post" method="post" action="/Member/Post">
+        <input type="text" name="textPost" placeholder="Post something cool!" class="form-control" />
+        <input type="submit" value="Post" class="form-control" />
+    </form>
+</div>
+<br />
+<br />
+<br />
+
+@foreach (var item in Model)
+{
+
+    <div class="col-xl-10 justify-content-xl-center position-relative Post">
+        <div class="d-flex">
+            <div class="col-10">
+                <img src="~/Images/bubble.jpeg" height="30" width="30" />
+                <a href="">@item.User.UserName</a>
+            </div>
+            <div class="col-2">
+                @{
+                    if (User.Identity.Name == item.User.UserName)
+                    {
+                        <a href="/Member/DeletePost/@item.PostID">&times;</a>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-xl-9 Post">
+            <textarea id="myTextArea" class="col-xl-12 justify-content-center" rows="3" cols="80">@item.BodyText</textarea>
+            <input type="button" class="btn btn-primary" value="Like" />
+            <button type="button" data-toggle="modal" data-target="#LikesModal">
+                @item.PostLikes.Count
+            </button>
+            <a href="Member/Home/@item.PostID" data-toggle="modal" data-target="#LikesList" data-ajax-update="#LikesListBody" data-ajax-method="Get" data-ajax="true">@item.PostLikes.Count()</a>
+        </div>
+        <br />
+        <!-- Comments-->
+        <div class="col-xl-10 justify-content-center Post">
+            <img src="~/Images/bubble.jpeg" height="30" width="20" />
+            <a href="">@item.Comments.FirstOrDefault(c => c.PostId == item.PostID)?.User?.UserName</a>
+            <textarea id="myTextArea" class="col-xl-5 justify-content-center" rows="1" cols="50">@item.Comments.FirstOrDefault(c=>c.PostId == item.PostID)?.BodyText
+</textarea>
+        </div>
+        <br />
+    </div>
+    <hr />
+}
+
+
+
+<!-- Post Likes List Modal -->
+<div class="modal fade" id="LikesModal" tabindex="-1" role="dialog" aria-labelledby="LikesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LikesModalLabel">People who liked</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @foreach (var item in Model.FirstOrDefault().PostLikes)
+                {
+                    <img src="~/Images/bubble.jpeg" height="30" width="20" />
+                    <a href="">User Name</a>
+                    <br />
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+

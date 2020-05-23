@@ -1,0 +1,66 @@
+﻿@model IEnumerable<FB_Project_DB_Model_int_Key.Models.User>
+@{
+    ViewData["Title"] = "AjaxSearch";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>AjaxSearch</h1>
+
+<div class="container-fluid">
+    <b>Search By: </b>
+    <select id="searchBy">
+        <option value="Name">Name</option>
+        <option value="UserID">UserID</option>
+    </select>
+    <br />
+    <br />
+    @Html.TextBox("Search")<input type="submit" id="searchButton" value="Search" />
+    <br />
+    <br />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>UserID</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="DataSearching">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.UserName</td>
+                    <td>@item.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>$(document).ready(function () {
+        $("#searchButton").click(function () {
+            var SearchBy = $("#searchBy").val();
+            var SearchValue = $("#Search").val();
+            var SetData = $("#DataSearching");
+            SetData.html("");
+            $.ajax({
+                type: "post",
+                url: "/Admin/GetSearchingData?SearchBy=" + SearchBy + "&SearchValue=" + SearchValue,
+                contentType: "html",
+                success: function (result) {
+                    if (result.length == 0)
+                        SetData.append('<tr style="color:red"><td colspan="3">No Match</td></tr>')
+                    else {
+                        $.each(result, function (index, value) {
+                            var Data = "<tr>" + "<td>" + value.Id + "</td>" +
+                                "<td>" + value.UserName + "</td>" +
+                                "<td>" + value.Email + "</td>" +
+                                "</tr>";
+                            SetData.append(Data);
+                        })
+                    }
+                }
+            });
+        });
+    });</script>

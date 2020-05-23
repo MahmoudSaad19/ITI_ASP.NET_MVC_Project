@@ -1,0 +1,135 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<link href="~/Form-Completion-Progress-Bar/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Form-Completion-Progress-Bar/formProgressBar.css">
+<script src="~/Form-Completion-Progress-Bar/jquery-3.1.1.js"></script>
+<script src="~/Form-Completion-Progress-Bar/formProgressBar.jquery.js"></script>
+<style>
+    form {
+        padding: 40px;
+    }
+
+    body {
+        background-color: #fafafa;
+    }
+
+    #jQueryProgressFormBar > div {
+        display: block;
+        background: green;
+        width: 0;
+    }
+
+        #jQueryProgressFormBar > div.warn {
+            background: yellow;
+        }
+
+        #jQueryProgressFormBar > div.error {
+            background: red;
+        }
+</style>
+
+<h1 class="text-center mt-4">Create a new account</h1>
+
+<form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+
+        <input asp-for="Input.UserName" type="text" class="form-control" placeholder="Username" required>
+    </div>
+
+    <div class="mb-3">
+        <input asp-for="Input.Email" class="form-control" placeholder="Email : you@example.com" required>
+    </div>
+
+    <div class="mb-3">
+        <input asp-for="Input.Password" class="form-control" placeholder="Password" required>
+    </div>
+
+    <div class="mb-3">
+        <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" required>
+    </div>
+    <div class="mb-3">
+        <label><input asp-for="Input.Gender" value="M" type="radio" required />Male</label>
+        <label><input asp-for="Input.Gender" value="F" type="radio" required />Female</label>
+    </div>
+
+    <div class="mb-3">
+        <input asp-for="Input.BirthDate" class="form-control" type="date" required />
+    </div>
+    <div class="mb-3">
+
+        <input type="file" name="pic" accept="Image/*" required />
+    </div>
+
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+</form>
+<script>
+    var elem = $("form").formProgressBar({ transitionTime: 500 });
+</script>
+
+
+
+
+
+
+
+
+
+@*<div class="row">
+    <div class="col-md-4">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.UserName"></label>
+                <input asp-for="Input.UserName" class="form-control" />
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Gender"></label>
+                <label><input asp-for="Input.Gender" value="M" type="radio" />Male</label>
+                <label><input asp-for="Input.Gender" value="F" type="radio" />Female</label>
+                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Input.BirthDate"></label>
+                <input asp-for="Input.BirthDate" class="form-control" type="date" />
+                <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
+            </div>
+
+
+            <input type="file" name="pic" accept="Image/*" />
+
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+
+    </div>
+</div>*@
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

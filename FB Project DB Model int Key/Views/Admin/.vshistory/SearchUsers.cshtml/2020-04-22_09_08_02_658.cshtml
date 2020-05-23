@@ -1,0 +1,74 @@
+﻿@model IEnumerable<User>
+@inject UserManager<User> userManager
+@inject RoleManager<Role> rm
+@inject FB_Project_DB_Model_int_Key.Data.ApplicationDbContext dbContext
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "SearchUsers";
+}
+
+
+<div class="col-12" style="padding-left:200px;">
+    <input type="text" id="search" class="form-control-plaintext border rounded d-inline" style="width:500px" placeholder="Search User Details" />
+    <input type="button" value="Search" class="rounded ml-3" style="background-color:darkgray;width:80px;height:40px;color:white;" />
+    <a class="rounded-circle btn" style="background-color:aqua;width:100px;height:50px;" asp-area="Identity" asp-page="/Account/Admin/Create">Create</a>
+    <a class="rounded-circle btn btn-outline-primary" asp-action="AjaxSearch" asp-controller="Admin">AjaxSearch</a>
+    <br />
+    <table class="table-borderless col-10 ml-3">
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="col-2 align-self-center">
+                            @if (item?.Photo == null)
+                            {
+                                <img src="~/Images/bubble.jpeg" class="img-fluid rounded-circle" />
+                            }
+                            else
+                            {
+                                <img src="data:image/*;base64,@Convert.ToBase64String(item?.Photo)" class="img-fluid rounded-circle" />
+                            }
+                        </div>
+                    </td>
+                    <td>
+                        <a href="/Member/Profile/@item.Id" class="h5 col-12 d-block m-0 p-0 text-primary">@item.UserName</a>
+                    </td>
+                    <td>
+                        <input type="button" value="Block" class=" btn btn-dark rounded" style="width:80px;height:35px;color:white;" />
+                    </td>
+                    <td>
+                        <form action="/Admin/UpdateRole/@item.Id">
+                            @{ int counter = 0;}
+                            @foreach (var r in rm.Roles)
+                            {
+                                <label>@r.Name</label>
+                                if (await userManager.IsInRoleAsync(item, r.Name))
+                                {
+                                    <input type="checkbox" name="role+@counter" id="checkbx" value="@r.Name" checked="checked" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="role+@counter" id="checkbx" value="@r.Name" />
+                                }
+                                counter++;
+
+                            }
+                            <input type="submit" value="Update Roles" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    @*$("#roleSelect").on("change", function () {
+        @dbContext.Users.FirstOrDefault(u => u.UserName == );
+    })*@
+</script>
+

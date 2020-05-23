@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "CreateRole";
+}
+
+    <main role="main" class="pb-3">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="alert alert-success" role="alert">
+            A simple success alert—check it out!
+        </div>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Success</strong><br /> Role Created Successfully
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form class="text-center" method="post">
+            <input type="text" class="form-control" name="roleName" placeholder="Role Name">
+            <br />
+            <input type="text" class="form-control" name="roleDesc" placeholder="Role Description">
+            <hr />
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </main>
+

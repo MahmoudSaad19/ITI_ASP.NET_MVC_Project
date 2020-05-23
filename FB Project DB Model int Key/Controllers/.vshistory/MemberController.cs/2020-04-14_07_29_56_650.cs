@@ -1,0 +1,74 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FB_Project_DB_Model_int_Key.Data;
+using FB_Project_DB_Model_int_Key.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FB_Project_DB_Model_int_Key.Controllers
+{
+    [Authorize]
+    public class MemberController : Controller
+    {
+        private ApplicationDbContext dbContext;
+        private UserManager<User> _user;
+
+        public MemberController(ApplicationDbContext context, UserManager<User> userManager )
+        {
+            dbContext = context;
+            _user = userManager;
+        }
+
+        public IActionResult Profile()
+        {
+            return View(dbContext.Users.ToList());
+        }
+
+        public IActionResult Home()
+        {
+            return View();
+        }
+
+        public IActionResult Post (string text)
+        {
+            var user = _us
+            Post post = new Post()
+            { 
+                BodyText=text,
+                Date = DateTime.Now,
+                User = User,
+                
+
+            }
+            dbContext.Posts.Select(p=>p.)
+        }
+
+        public IActionResult Search2(string name)
+        {
+            if (name == null)
+            {
+                return NotFound();
+            }
+
+            var member = from u in dbContext.Users
+                         select u;
+
+            var names = member.Where(m => m.UserName.Contains(name));
+
+            if (names == null)
+            {
+                return NotFound();
+            }
+
+            return View(names);
+        }
+
+        public IActionResult Settings()
+        {
+            return View();
+        }
+    }
+}

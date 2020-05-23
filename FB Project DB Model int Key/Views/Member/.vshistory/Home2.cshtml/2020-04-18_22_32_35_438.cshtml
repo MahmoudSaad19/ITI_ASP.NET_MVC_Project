@@ -1,0 +1,297 @@
+﻿@model IEnumerable<Post>
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var Login_User_id = user.Id;
+}
+
+@{
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    ViewData["Title"] = "Home";
+}
+
+<style>
+    #post {
+        border: solid;
+        border-color: violet;
+        border-width: thin;
+        height: 100px;
+        min-width: 350px;
+        text-align: center;
+        justify-items: center;
+    }
+</style>
+
+<center>
+    <div class="col-8">
+        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+        @*for Write post*@
+        <div>
+            <form>
+                <div class="form-group">
+                    <img src="~/Images/bubble.jpeg" height="50" width="50" />
+                    <a href="" style="font-size:20px">@user.UserName</a>
+                    <input class="form-control text-center col-10" style="height:80px;" placeholder="Post something cool!" />
+                    <input type="submit" class="form-control btn btn-primary dropright col-1 ml-3" value="Post" />
+                </div>
+            </form>
+        </div>
+        <!--All Posts & Comments-->
+        <div>
+            <div>
+                <br /><br /><br />
+                @{ var i = 0;} @*Don`t Delete This counter, this counter to make different id in panel at comments*@
+                @{
+                    var Login_User_Friends = Model.Where(i => i.UserId == Login_User_id).Select(i => i.User).Select(u => u.Friends).Distinct();
+                    var Login_User_Posts = Model.Where(i => i.UserId == Login_User_id).Select(i => i.User).Select(i => i.Posts).Distinct();
+                }
+
+                @if (Login_User_Posts.Count() > 0)
+                {
+                    foreach (var item in Login_User_Posts)
+                    {
+                        foreach (var item2 in item)
+                        {
+                            @*<a>@item2.User.UserName</a>
+                    <textarea>@item2.BodyText</textarea>*@
+                            <div class="col-8" style="background-color:#F0F0F0;border-width:thin;border:dashed;border-color:blue;">
+                                <div style="display:inline-block;">
+                                    @*User Name And Picture*@
+                                    <div>
+                                        <img src="~/Images/bubble.jpeg" height="50" width="50" />
+                                        <a href="" style="font-size:20px">@item2.User.UserName</a>
+                                    </div>
+                                    @*Post Body*@
+                                    <form method="post">
+                                        <a class="ml-3 btn btn-danger" href="/Member/DeletePost/@item2.PostID">X</a>
+                                        <div class="col-12 form-group">
+                                            <textarea asp-for="@item2.BodyText" class="form-control" wrap="hard" name="BodyText" style="font-family:'Lucida Handwriting';min-height:100px;min-width:400px ">@item2.BodyText</textarea>
+                                            <span class="is-valid" asp-validation-for="@item2.BodyText"></span>
+                                            <input class="form-control" hidden name="PostID" value="@item2.PostID" />
+                                        </div>
+                                        <div class="float-left d-block form-group">
+                                            <input type="button" onclick="Like(@item2.PostID)" class="btn btn-primary" value="Like" />
+                                            <a class=" ml-3 btn btn-primary" asp-route-id="@item2.PostID" asp-action="LikesList" asp-controller="Member" data-ajax-update="#LikesListBody" data-ajax-success="OnSuccess()" data-ajax-method="Get" data-ajax="true" data-ajax-mode="replace">@item2.PostLikes.Count()</a>
+                                        </div>
+                                        <div class="float-right d-block mr-3 form-group">
+                                            <input type="submit" asp-action="EditPost" asp-controller="Member" asp-route-id="@item2.PostID" style="border-collapse:collapse;" class="btn btn-dark form-control" value="Edit" />
+                                        </div>
+                                    </form>
+                                </div>
+                                @*Comments on This Post*@
+                                <div>
+                                    <br />
+                                    <form method="post" action="/Member/AddComment">
+                                        <input hidden name="PostId" value="@item2.PostID" />
+                                        <input hidden name="UserId" value="@Login_User_id" />
+                                        <img src="~/Images/bubble.jpeg" height="30" width="30" />
+                                        <a href="">@User.Identity.Name</a>
+                                        <input name="BodyText" class="form-control col-6 d-inline" style="border-radius:25%;border-right-style:groove;border-left-style:groove;" placeholder="Write A Comment" />
+                                        <input type="submit" value="OK" class="btn btn-dark" asp-action="AddComment" />
+                                    </form>
+                                    <hr />
+                                    @*PANEL For All Comments*@
+                                    <div class="panel-group" id="accordion">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse_@i" href="#collapse_@i">
+                                                        Click To Show All Comments
+                                                    </a>
+                                                    <br />
+                                                </h4>
+                                            </div>
+                                            <div id="collapse_@i" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    @if (item2.Comments.Count() == 0)
+                                                    {
+                                                        <label style="color:deeppink;">There Are No Comments On This Post Till Now</label>
+                                                    }
+                                                    <div style="left:0px;">
+                                                        @foreach (var item3 in item2.Comments)
+                                                        {
+                                                            @if (Login_User_id == item3.UserId)
+                                                            {
+                                                                <form method="post" action="/Member/DeleteComment">
+                                                                    <input hidden name="CID" value="@item3.CID" />
+                                                                    <img src="~/Images/bubble.jpeg" height="30" width="30" />
+                                                                    <a class="col-5" href="">@item3.User?.UserName</a>
+                                                                    <input asp-for="@item3.BodyText" class="col-3 form-control d-inline" name="BodyText" style="max-width:200px;font-family:'Snap ITC';" value="@item3.BodyText" />
+                                                                    <span class="is-valid" asp-validation-for="@item3.BodyText"></span>
+                                                                    <input type="submit" value="Edit" style="border-collapse:collapse;" class="btn btn-outline-dark" asp-action="EditComment" />
+                                                                    <input type="submit" value="X" style="border-collapse:collapse" class="btn btn-outline-dark" asp-action="DeleteComment" />
+                                                                </form>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/Images/bubble.jpeg" height="30" width="30" />
+                                                                <a class="col-5" href="">@item3.User?.UserName</a>
+                                                                <label class="col-5" style="min-width:200px;border:dotted;">@item3.BodyText</label>
+                                                            }
+                                                            <hr />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            i++;
+                            <hr class="btn-outline-dark" style="width:250px" />
+                        }
+                    }
+                }
+
+                @foreach (var item in Login_User_Friends)
+                {
+                    foreach (var item2 in item)
+                    {
+                        foreach (var item3 in item2.Friend.Posts)
+                        {
+                            <div class="col-8" style="background-color:#F0F0F0;border-width:thin;border:dashed;border-color:blue;">
+                                <div style="display:inline-block;">
+                                    @*User Name And Picture*@
+                                    <div>
+                                        <img src="~/Images/bubble.jpeg" height="50" width="50" />
+                                        <a href="" style="font-size:20px">@item3.User.UserName</a>
+                                    </div>
+                                    @*Post Body*@
+                                    @if (Login_User_id == item3.UserId)
+                                    {
+                                        <form method="post">
+                                            <a class="ml-3 btn btn-danger" href="/Member/DeletePost/@item3.PostID">X</a>
+                                            <div class="col-12 form-group">
+                                                <textarea asp-for="@item3.BodyText" class="form-control" wrap="hard" name="BodyText" style="font-family:'Lucida Handwriting';min-height:100px;min-width:400px ">@item3.BodyText</textarea>
+                                                <span class="is-valid" asp-validation-for="@item3.BodyText"></span>
+                                                <input class="form-control" hidden name="PostID" value="@item3.PostID" />
+                                            </div>
+                                            <div class="float-left d-block form-group">
+                                                <input type="button" onclick="Like(@item3.PostID)" class="btn btn-primary" value="Like" />
+                                                <a class=" ml-3 btn btn-primary" asp-route-id="@item3.PostID" asp-action="LikesList" asp-controller="Member" data-ajax-update="#LikesListBody" data-ajax-success="OnSuccess()" data-ajax-method="Get" data-ajax="true" data-ajax-mode="replace">@item3.PostLikes.Count()</a>
+                                            </div>
+                                            <div class="float-right d-block mr-3 form-group">
+                                                <input type="submit" asp-action="EditPost" asp-controller="Member" asp-route-id="@item3.PostID" style="border-collapse:collapse;" class="btn btn-dark form-control" value="Edit" />
+                                            </div>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <div id="post" class="col-12">
+                                            <label style="margin-bottom:40px;margin-top:40px;font-family:'Lucida Handwriting';">@item3.BodyText</label>
+                                        </div>
+                                        <div class="float-left d-block">
+                                            <input type="button" onclick="Like(@item3.PostID)" class="btn btn-primary" value="Like" />
+                                            <a class=" ml-3 btn btn-primary" asp-route-id="@item3.PostID" asp-action="LikesList" asp-controller="Member" data-ajax-update="#LikesListBody" data-ajax-success="OnSuccess()" data-ajax-method="Get" data-ajax="true" data-ajax-mode="replace">@item3.PostLikes.Count()</a>
+                                        </div>
+                                    }
+                                </div>
+                                @*Comments on This Post*@
+                                <div>
+                                    <br />
+                                    <form method="post" action="/Member/AddComment">
+                                        <input hidden name="PostId" value="@item3.PostID" />
+                                        <input hidden name="UserId" value="@Login_User_id" />
+                                        <img src="~/Images/bubble.jpeg" height="30" width="30" />
+                                        <a href="">@User.Identity.Name</a>
+                                        <input name="BodyText" class="form-control col-6 d-inline" style="border-radius:25%;border-right-style:groove;border-left-style:groove;" placeholder="Write A Comment" />
+                                        <input type="submit" value="OK" class="btn btn-dark" asp-action="AddComment" />
+                                    </form>
+                                    <hr />
+                                    @*PANEL For All Comments*@
+                                    <div class="panel-group" id="accordion">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" data-target="#collapse_@i" href="#collapse_@i">
+                                                        Click To Show All Comments
+                                                    </a>
+                                                    <br />
+                                                </h4>
+                                            </div>
+                                            <div id="collapse_@i" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    @if (item3.Comments.Count() == 0)
+                                                    {
+                                                        <label style="color:deeppink;">There Are No Comments On This Post Till Now</label>
+                                                    }
+                                                    <div style="left:0px;">
+                                                        @foreach (var item4 in item3.Comments)
+                                                        {
+                                                            @if (Login_User_id == item4.UserId)
+                                                            {
+                                                                <form method="post" action="/Member/DeleteComment">
+                                                                    <input hidden name="CID" value="@item4.CID" />
+                                                                    <img src="~/Images/bubble.jpeg" height="30" width="30" />
+                                                                    <a class="col-5" href="">@item4.User?.UserName</a>
+                                                                    <input asp-for="@item4.BodyText" class="col-3 form-control d-inline" name="BodyText" style="max-width:200px;font-family:'Snap ITC';" value="@item4.BodyText" />
+                                                                    <span class="is-valid" asp-validation-for="@item4.BodyText"></span>
+                                                                    <input type="submit" value="Edit" style="border-collapse:collapse;" class="btn btn-outline-dark" asp-action="EditComment" />
+                                                                    <input type="submit" value="X" style="border-collapse:collapse" class="btn btn-outline-dark" asp-action="DeleteComment" />
+                                                                </form>
+                                                            }
+                                                            else
+                                                            {
+                                                                <img src="~/Images/bubble.jpeg" height="30" width="30" />
+                                                                <a class="col-5" href="">@item4.User?.UserName</a>
+                                                                <label class="col-5" style="min-width:200px;border:dotted;">@item4.BodyText</label>
+                                                            }
+                                                            <hr />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            i++;
+                            <hr class="btn-outline-dark" style="width:250px" />
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</center>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="LikesList" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="LikesListLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LikesListLabel">People who liked</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="LikesListBody">
+                @*Replace Code From PartialView(LikesList)*@
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#demo").on("hide.bs.collapse", function () {
+                $(".btn").html('<span class=" glyphicon glyphicon-collapse-down"></span>', Open);
+            });
+            $("#demo").on("show.bs.collapse", function () {
+                $(".btn").html('<span class=" glyphicon glyphicon - collapse - up"></span>', Close);
+            });
+        });
+
+        function OnSuccess() {
+            $("#LikesList").modal('toggle')
+        }
+
+    </script>
+}

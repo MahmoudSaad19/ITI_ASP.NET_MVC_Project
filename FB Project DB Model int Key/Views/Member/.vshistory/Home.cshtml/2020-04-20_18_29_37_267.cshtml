@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Post>
+@inject UserManager<User> userManager
+
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+    var currentUser = await userManager.GetUserAsync(User);
+}
+
+
+<div class="col-md-10 justify-content-xl-center offset-1">
+    <form method="post" action="/Member/Post">
+        <textarea name="textPost" placeholder="Post something cool!" class="form-control"></textarea>
+        <input type="submit" value="Post" class="form-control btn btn-block btn-outline-primary" />
+    </form>
+</div>
+<br />
+<br />
+<br />
+<div class="col-md-9 col-sm-12 d-lg-block offset-2">
+        @foreach (var item in Model)
+        {
+            <!--Post-->
+            <div class="shadow-sm border">
+                <div class="d-flex mt-2">
+                    <!--user and post info-->
+                    <div class="col-2 align-self-center">
+                        @if (item.User?.Photo == null)
+                        {
+                            <img src="~/Images/bubble.jpeg" class="img-fluid rounded-circle" />
+                        }
+                        else
+                        {
+                            <img src="data:image/*;base64,@Convert.ToBase64String(item.User?.Photo)" class="img-fluid rounded-circle" />
+                        }
+                    </div>
+                    <div class="col-5 text-left pl-0">
+                        <a href="/Member/Profile/@item.User.Id" class="h5 col-12 d-block m-0 p-0 text-primary">@item.User.UserName</a>
+                        <p class="text-secondary">@item.Date</p>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col-1">
+                        @if (User.Identity.Name == item.User.UserName)
+                        {
+                            <a href="/Member/DeleteAPost/@item.PostID" class="h5">&times;</a>
+                        }
+                    </div>
+                </div>
+
+                <div class="p-3">
+                    @item.BodyText
+                </div>
+                <!-- Likes-->
+                <div class="d-flex">
+                    <div class="ml-3"></div>
+                    @if (item.PostLikes.Any(p => p.PostId == item.PostID && p.UserId == currentUser.Id))
+                    {
+                        <form method="post" action="/Member/DisLike/@item.PostID">
+                            <input type="submit" value="&hearts;" class="btn btn-danger" />
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" action="/Member/Like/@item.PostID">
+                            <input type="submit" value="&hearts;" class="btn btn-outline-danger" />
+                        </form>
+                    }
+                    <a class="btn btn-danger text-white" href="/Member/LikesList/@item.PostID" data-ajax-update="#LikesListBody" data-ajax-success="OnSuccess()" data-ajax-method="Get" data-ajax="true" data-ajax-mode="replace">@item.PostLikes.Count</a>
+                </div>
+                <hr />
+                <div>
+                    <form action="/Member/AddComment/@item.PostID" class="d-flex">
+                        <input type="text" placeholder="Write a Comment " name="comment" class="col-9 mx-2 ml-4 form-control" />
+                        <input type="submit" value="Comment" class="btn btn-sm btn-outline-primary col-2" />
+                    </form>
+                </div>
+                <hr />
+                <!--Comments-->
+                @foreach (var comment in item.Comments)
+                {
+                    <div class="d-flex shadow-sm align-content-center py-3">
+                        <div class="col-11 align-content-center d-flex">
+                            <span class="col-2 d-flex p-0">
+                                @*style="max-width:24%; flex:24%"*@
+                                <span class="col-1 p-0"></span>
+                                @if (comment.User?.Photo == null)
+                                {
+                                    <img src="~/Images/bubble.jpeg" class="img-fluid rounded-circle col-10" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/*;base64,@Convert.ToBase64String(comment.User?.Photo)" class="img-fluid rounded-circle col-10" />
+                                }
+                            </span>
+                            <a class="mr-3 p-0 ml-0 col-4 align-self-center h6" href="/Member/Profile/@comment.UserId">@comment.User.UserName</a>
+                            <span class="align-self-center col-5">@comment.BodyText</span>
+                        </div>
+                        @if (comment.User.UserName == User.Identity.Name)
+                        {
+                            <a href="/Member/DeleteAComment/@comment.CID" class="h5 align-self-center col-1">&times;</a>
+                        }
+                    </div>
+                }
+            </div>
+            <hr />
+        }
+</div>
+
+
+<!-- Post Likes List Modal -->
+<div class="modal fade" id="LikesList" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="LikesListLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="LikesListLabel">People who liked</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="LikesListBody">
+
+            </div>
+        </div>
+    </div>
+</div>

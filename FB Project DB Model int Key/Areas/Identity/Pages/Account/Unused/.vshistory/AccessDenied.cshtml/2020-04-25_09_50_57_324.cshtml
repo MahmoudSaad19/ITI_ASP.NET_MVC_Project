@@ -1,0 +1,26 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Access denied";
+    Layout = null;
+}
+    <title>@ViewData["Title"]</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+<style>
+    body {
+        /*background: url('/images/Blocked.png');*/
+        background-repeat: no-repeat;
+        background-size:contain;
+        background-position-x: center;
+        background-color:red;
+    }
+</style>
+<header>
+    
+</header>
+<body class="text-center">
+    <br />
+    <h1 class="text-white display-1 font-weight-normal">You Have Been</h1>
+    <h1 class="text-capitalize text-white display-1 font-weight-bolder">Blocked</h1>
+    <p class="text-white">You do not have access to this resource</p>
+</body>

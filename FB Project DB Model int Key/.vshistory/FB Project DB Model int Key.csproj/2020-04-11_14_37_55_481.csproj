@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-FB_Project_DB_Model_int_Key-FBD6F302-8939-4983-8C64-0C80DE8F96EE</UserSecretsId>
+    <RootNamespace>FB_Project_DB_Model_int_Key</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.cs" />
+    <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410044841_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410044841_create_All_Tables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410051140_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410051140_create_All_Tables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410051420_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410051420_create_All_Tables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410055506_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410055506_create_All_Tables.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410060746_create_All_Tables.cs" />
+    <Compile Remove="Data\Migrations\20200410060746_create_All_Tables.Designer.cs" />
+    <Compile Remove="Migrations\20200410063041_create_All_Tables.cs" />
+    <Compile Remove="Migrations\20200410063041_create_All_Tables.Designer.cs" />
+    <Compile Remove="Migrations\20200410063407_create_All_Tables.cs" />
+    <Compile Remove="Migrations\20200410063407_create_All_Tables.Designer.cs" />
+    <Compile Remove="Migrations\20200410065351_create_All_Tables.cs" />
+    <Compile Remove="Migrations\20200410065351_create_All_Tables.Designer.cs" />
+    <Compile Remove="Migrations\20200410065645_create_All_Tables.cs" />
+    <Compile Remove="Migrations\20200410065645_create_All_Tables.Designer.cs" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Include="Areas\Identity\Pages\Account\Maisa\AdminCreateUser.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Maisa\Login.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Maisa\LoginAdmin.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Maisa\Logout.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Maisa\Register.cshtml" />
+    <None Include="Areas\Identity\Pages\Account\Maisa\Setting.cshtml" />
+    <None Include="Views\Admin\Create.cshtml" />
+    <None Include="Views\Admin\CreateRole.cshtml" />
+    <None Include="Views\Admin\SearchUsers.cshtml" />
+    <None Include="Views\Admin\Settings.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Member\Home.cshtml" />
+    <None Include="Views\Member\Profile.cshtml" />
+    <None Include="Views\Member\Search.cshtml" />
+    <None Include="Views\Member\Settings.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_AdminLayout.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_LoginPartial.cshtml" />
+    <None Include="Views\Shared\_MemberLayout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+  </ItemGroup>
+
+</Project>
